@@ -75,11 +75,33 @@ class MPK49pp(ControlSurface):
             #self.log_message("Adding track " + str(track))
             strip = mixer.channel_strip(track)
             strip.name = 'Channel_Strip_' + str(track)
-            volume_control = SliderElement(MIDI_CC_TYPE, track, 7)
+            volume_control = SliderElement(MIDI_CC_TYPE, track, VOL_CC)
+            snd_A_control = SliderElement(MIDI_CC_TYPE, track, SND_A_CC)
+            snd_B_control = SliderElement(MIDI_CC_TYPE, track, SND_B_CC)
+            pan_control = SliderElement(MIDI_CC_TYPE, track, PAN_CC)
+
+            arm_button = ButtonElement(not is_momentary, MIDI_CC_TYPE, track, ARM_CC)
+            select_button = ButtonElement(is_momentary, MIDI_CC_TYPE, track, SEL_CC)
+            mute_button = ButtonElement(not is_momentary, MIDI_CC_TYPE, track, MUTE_CC)
+
 
             volume_control.name = str(track) + '_Volume_Control'
+            snd_A_control.name = str(track) + '_Send_A_Control'
+            snd_B_control.name = str(track) + '_Send_B_Control'
+            pan_control.name = str(track) + '_Pan_Control'
+
+            arm_button.name = str(track) + '_arm_Button'
+            select_button.name = str(track) + '_Select_Button'
+            mute_button.name = str(track) + '_Mute_Button'
+
 
             strip.set_volume_control(volume_control)
+            strip.set_send_controls([snd_A_control, snd_B_control])
+            strip.set_pan_control(pan_control)
+
+            strip.set_arm_button(arm_button)
+            strip.set_select_button(select_button)
+            strip.set_mute_button(mute_button)
 
         return mixer
 
